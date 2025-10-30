@@ -85,17 +85,24 @@ function updateClocks() {
 
         // Update Day/Night Icon
         const isDay = tzHour >= 6 && tzHour < 18;
-        document.getElementById(`phase-${tz.offset}`).textContent = isDay ? '☀️' : '🌙';
+        const phaseIconElement = document.getElementById(`phase-${tz.offset}`);
+        if (phaseIconElement) {
+            phaseIconElement.classList.remove('is-day', 'is-night'); // Remove existing classes
+            if (isDay) {
+                phaseIconElement.classList.add('is-day');
+            } else {
+                phaseIconElement.classList.add('is-night');
+            }
+            phaseIconElement.textContent = ''; // Clear emoji text
+        }
 
         // Update Date Indicator
         const tzTime = new Date(now.getTime() + (tz.offset - (-now.getTimezoneOffset()/60)) * 3600 * 1000);
         const tzDay = tzTime.getDate();
         const dateElement = document.getElementById(`date-${tz.offset}`);
         if (dateElement) {
-            if (tzDay > localDay) {
-                dateElement.textContent = '(+1d)';
-            } else if (tzDay < localDay) {
-                dateElement.textContent = '(-1d)';
+            if (tzDay !== localDay) {
+                dateElement.textContent = tzTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
             } else {
                 dateElement.textContent = '';
             }
@@ -116,6 +123,15 @@ function highlightUserTimezone() {
         line.className = 'vertical-line';
         userTimezoneElement.appendChild(line);
     }
+
+    // Position the line on the map
+    const mapLine = document.getElementById('map-vertical-line');
+    if (mapLine) {
+        const totalOffsets = 24;
+        const percentage = ((closestOffset.offset + 11) / totalOffsets) * 100;
+        mapLine.style.left = `${percentage}%`;
+    }
+
     document.getElementById('user-timezone').textContent = `Your Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
 }
 
@@ -127,10 +143,26 @@ function handleMouseMove(event) {
     timelineWrapper.scrollLeft = (mouseX / screenWidth) * maxScrollLeft;
 }
 
+function updateMapOverlay() {
+    const timelineWrapper = document.getElementById('timeline-wrapper');
+    const mapOverlay = document.getElementById('map-overlay');
+
+    const visiblePercentage = timelineWrapper.clientWidth / timelineWrapper.scrollWidth;
+    const scrolledPercentage = timelineWrapper.scrollLeft / timelineWrapper.scrollWidth;
+
+    mapOverlay.style.width = `${visiblePercentage * 100}%`;
+    mapOverlay.style.left = `${scrolledPercentage * 100}%`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     renderTimezones();
     updateClocks();
     highlightUserTimezone();
+    updateMapOverlay();
     setInterval(updateClocks, 1000);
-    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mousemove', (e) => {
+        handleMouseMove(e);
+        updateMapOverlay();
+    });
+    document.getElementById('timeline-wrapper').addEventListener('scroll', updateMapOverlay);
 });

@@ -1,0 +1,62 @@
+Project: World Clock
+
+This file serves as a log of changes and a description of the project files.
+
+== Project Files ==
+
+- index.html: The main HTML file that defines the structure of the web page. It includes the header, the timeline, and the map container.
+- style.css: The CSS file that styles the HTML elements. It controls the layout, colors, fonts, and animations, including the appearance of the map and the timeline.
+- script.js: The JavaScript file that contains the application logic. It handles:
+    - Rendering the different timezones on the timeline.
+    - Calculating and updating the time for each timezone.
+    - Detecting the user's local timezone and highlighting it.
+    - Positioning the user's timezone indicator line on the map and timeline.
+    - Handling user interactions like mouse movement to scroll the timeline.
+
+== Change Log ==
+
+1.  **Added Map Preview:**
+    - A map container was added to the top-left corner of the page (`index.html`, `style.css`).
+    - The initial image URL for the map was broken.
+    - Replaced the broken URL with a working one from Wikimedia Commons in `style.css`.
+
+2.  **Added User Timezone Line on Map:**
+    - A vertical blue line was added to the map to visually represent the user's current timezone.
+    - A `div` with id `map-vertical-line` was added to `index.html`.
+    - CSS styles for this line were added to `style.css`.
+    - The `highlightUserTimezone` function in `script.js` was modified to calculate the line's horizontal position based on the user's timezone offset and update its `left` style property.
+
+3.  **Development Environment:**
+    - Discussed the use of a local web server (`localhost`).
+    - Concluded that for the current state of the project (loading external images and scripts), opening `index.html` directly in the browser is sufficient for testing.
+
+4.  **Improved Date Display:**
+    - Updated `script.js` to show the full date (e.g., "Oct 31") for timezones where the date is different from the user's local date, instead of just showing `(+1d)` or `(-1d)`.
+
+5.  **Major Redesign (Locomotive Style):**
+    - Completely overhauled the visual style of the application to mimic the aesthetic of the Locomotive Scroll website.
+    - Implemented a new dark color scheme (dark background, light text, teal accent color).
+    - Updated typography to use a modern, system-based sans-serif font stack for a cleaner look.
+    - Redesigned the timeline layout, centering the time, date, and city information relative to the timezone point.
+    - Replaced the pulsing animation with a static accent color for the user's timezone.
+    - Applied a grayscale and contrast filter to the map for better integration with the new theme.
+    - All changes were applied in `style.css`.
+
+6.  **Theme Switch to Light Mode & City Alignment:**
+    - Changed the overall theme from dark to a light background color (`#d3cfc9`).
+    - Adjusted all text and element colors to ensure visibility and contrast on the new light background.
+    - Modified the `.timezone-cities` style to left-align the city names and adjusted their positioning for better readability.
+    - Removed the `filter` property from `#map-container` to display the map in its original colors against the light background.
+    - All changes were applied in `style.css`.
+
+7.  **Simplified Day/Night Icons:**
+    - Replaced emoji day/night icons (☀️/🌙) with simple, solid-colored circles.
+    - `script.js` was modified to add `is-day` or `is-night` classes to the `.phase-icon` element instead of setting text content.
+    - `style.css` was updated to style `.phase-icon.is-day` as a white circle and `.phase-icon.is-night` as a black circle, with adjusted positioning.
+
+8.  **Image-based Day/Night Icons:**
+    - Replaced solid-colored circles with specific icons for day and night.
+    - The moon icon now uses the image from `https://www.freeiconspng.com/uploads/moon-icon-33.png`.
+    - The sun icon is a solid yellow circle, as requested.
+    - Both icons are sized at 24px.
+    - Changes were applied in `style.css` (background-image, background-color, size, positioning).
