@@ -32,3 +32,31 @@ This file serves as a log of changes and a description of the project files.
 
 4.  **Improved Date Display:**
     - Updated `script.js` to show the full date (e.g., "Oct 31") for timezones where the date is different from the user's local date, instead of just showing `(+1d)` or `(-1d)`.
+
+5.  **Major Redesign (Locomotive Style):**
+    - Completely overhauled the visual style of the application to mimic the aesthetic of the Locomotive Scroll website.
+    - Implemented a new dark color scheme (dark background, light text, teal accent color).
+    - Updated typography to use a modern, system-based sans-serif font stack for a cleaner look.
+    - Redesigned the timeline layout, centering the time, date, and city information relative to the timezone point.
+    - Replaced the pulsing animation with a static accent color for the user's timezone.
+    - Applied a grayscale and contrast filter to the map for better integration with the new theme.
+    - All changes were applied in `style.css`.
+
+6.  **Theme Switch to Light Mode & City Alignment:**
+    - Changed the overall theme from dark to a light background color (`#d3cfc9`).
+    - Adjusted all text and element colors to ensure visibility and contrast on the new light background.
+    - Modified the `.timezone-cities` style to left-align the city names and adjusted their positioning for better readability.
+    - Removed the `filter` property from `#map-container` to display the map in its original colors against the light background.
+    - All changes were applied in `style.css`.
+
+7.  **Simplified Day/Night Icons:**
+    - Replaced emoji day/night icons (☀️/🌙) with simple, solid-colored circles.
+    - `script.js` was modified to add `is-day` or `is-night` classes to the `.phase-icon` element instead of setting text content.
+    - `style.css` was updated to style `.phase-icon.is-day` as a white circle and `.phase-icon.is-night` as a black circle, with adjusted positioning.
+
+8.  **Image-based Day/Night Icons:**
+    - Replaced solid-colored circles with specific icons for day and night.
+    - The moon icon now uses the image from `https://www.freeiconspng.com/uploads/moon-icon-33.png`.
+    - The sun icon is a solid yellow circle, as requested.
+    - Both icons are sized at 24px.
+    - Changes were applied in `style.css` (background-image, background-color, size, positioning).

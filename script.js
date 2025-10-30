@@ -85,7 +85,16 @@ function updateClocks() {
 
         // Update Day/Night Icon
         const isDay = tzHour >= 6 && tzHour < 18;
-        document.getElementById(`phase-${tz.offset}`).textContent = isDay ? '☀️' : '🌙';
+        const phaseIconElement = document.getElementById(`phase-${tz.offset}`);
+        if (phaseIconElement) {
+            phaseIconElement.classList.remove('is-day', 'is-night'); // Remove existing classes
+            if (isDay) {
+                phaseIconElement.classList.add('is-day');
+            } else {
+                phaseIconElement.classList.add('is-night');
+            }
+            phaseIconElement.textContent = ''; // Clear emoji text
+        }
 
         // Update Date Indicator
         const tzTime = new Date(now.getTime() + (tz.offset - (-now.getTimezoneOffset()/60)) * 3600 * 1000);

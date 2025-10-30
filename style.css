@@ -1,53 +1,44 @@
-@keyframes pulse {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 0 0 rgba(0, 0, 255, 0.7);
-    }
-    70% {
-        transform: translate(-50%, -50%) scale(1.5);
-        box-shadow: 0 0 10px 20px rgba(0, 0, 255, 0);
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 0 0 rgba(0, 0, 255, 0);
-    }
-}
 
 body {
-    font-family: sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #d3cfc9;
+    color: #121212;
     margin: 0;
     overflow: hidden;
 }
 
 .header-container {
-    padding-top: 40px;
+    padding-top: 60px;
     text-align: center;
 }
 
 h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    font-size: 3.5em;
+    font-weight: 500;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
 }
 
 #local-time {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 2.5em;
+    font-weight: 300;
+    margin-bottom: 15px;
+    color: #424242;
 }
 
 #user-timezone {
     font-size: 1.2em;
-    margin-bottom: 40px;
+    font-weight: 300;
+    margin-bottom: 60px;
+    color: #757575;
 }
 
 .timeline-wrapper {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 0 200px; /* Correct padding */
-    box-sizing: border-box; /* Important for padding */
+    padding: 0 200px;
+    box-sizing: border-box;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -59,9 +50,9 @@ h1 {
 .timeline {
     position: relative;
     width: 200%;
-    height: 2px;
-    background-color: #333;
-    margin: 100px 0;
+    height: 1px;
+    background-color: #BDBDBD;
+    margin: 120px 0;
 }
 
 .timezone-point {
@@ -69,10 +60,11 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
-    background-color: #333;
+    width: 10px;
+    height: 10px;
+    background-color: #616161;
     border-radius: 50%;
+    transition: background-color 0.3s ease;
 }
 
 .timezone-info {
@@ -83,64 +75,83 @@ h1 {
 
 .time-container {
     position: absolute;
-    bottom: 15px;
-    left: calc(50% + 20px);
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     white-space: nowrap;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 .timezone-time {
-    font-size: 0.9em;
-    font-weight: bold;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 .timezone-date {
-    font-size: 0.7em;
-    color: #e67e22;
-    font-weight: bold;
+    font-size: 0.8em;
+    color: #00796B; /* Darker teal for better contrast on light background */
+    font-weight: 500;
 }
 
 .phase-icon {
-    font-size: 0.8em;
+    position: absolute;
+    top: -40px; /* Adjusted position for 24px icon */
+    width: 24px; /* Size of the icon */
+    height: 24px; /* Size of the icon */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%; /* Ensure sun is a circle */
+}
+
+.phase-icon.is-day {
+    background-color: yellow; /* Solid yellow circle for sun */
+    background-image: none; /* Ensure no image is used if a previous one was set */
+}
+
+.phase-icon.is-night {
+    background-image: url('https://www.freeiconspng.com/uploads/moon-icon-33.png');
+    background-color: transparent; /* Ensure background color doesn't interfere */
 }
 
 .timezone-cities {
     position: absolute;
-    top: 15px;
-    left: calc(50% + 20px);
-    font-size: 0.8em;
-    color: #666;
-    line-height: 1.4;
-    text-align: left;
+    top: 20px;
+    left: calc(50% + 15px); /* Adjusted for left alignment */
+    font-size: 0.9em;
+    color: #616161;
+    line-height: 1.5;
+    text-align: left; /* Changed from center */
+    width: 150px;
 }
 
 .user-timezone .timezone-point {
-    background-color: blue;
-    animation: pulse 2s infinite;
+    background-color: #00796B;
 }
 
 .vertical-line {
     position: absolute;
-    top: -100px;
+    top: -120px;
     left: 50%;
     transform: translateX(-50%);
-    width: 2px;
-    height: 300px;
-    background-color: rgba(0, 0, 255, 0.5);
+    width: 1px;
+    height: 340px;
+    background-color: rgba(0, 121, 107, 0.5);
     z-index: -1;
 }
 
 #map-container {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 200px;
-    height: 100px;
+    top: 30px;
+    left: 30px;
+    width: 240px;
+    height: 120px;
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg');
     background-size: cover;
-    border: 1px solid #333;
+    border: 1px solid #BDBDBD;
     z-index: 1000;
 }
 
@@ -150,17 +161,17 @@ h1 {
     left: 0;
     width: 0; /* Will be set by JS */
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: rgba(18, 18, 18, 0.1);
+    border-right: 1px solid rgba(18, 18, 18, 0.2);
 }
 
 #map-vertical-line {
     position: absolute;
     top: 0;
     left: 50%; /* Default position, will be updated by JS */
-    width: 2px;
+    width: 1px;
     height: 100%;
-    background-color: blue;
+    background-color: #00796B;
     transform: translateX(-50%);
-    z-index: 1001; /* Ensure it's above the overlay */
+    z-index: 1001;
 }
