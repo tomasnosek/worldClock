@@ -29,3 +29,6 @@ This file serves as a log of changes and a description of the project files.
 3.  **Development Environment:**
     - Discussed the use of a local web server (`localhost`).
     - Concluded that for the current state of the project (loading external images and scripts), opening `index.html` directly in the browser is sufficient for testing.
+
+4.  **Improved Date Display:**
+    - Updated `script.js` to show the full date (e.g., "Oct 31") for timezones where the date is different from the user's local date, instead of just showing `(+1d)` or `(-1d)`.

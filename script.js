@@ -92,10 +92,8 @@ function updateClocks() {
         const tzDay = tzTime.getDate();
         const dateElement = document.getElementById(`date-${tz.offset}`);
         if (dateElement) {
-            if (tzDay > localDay) {
-                dateElement.textContent = '(+1d)';
-            } else if (tzDay < localDay) {
-                dateElement.textContent = '(-1d)';
+            if (tzDay !== localDay) {
+                dateElement.textContent = tzTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
             } else {
                 dateElement.textContent = '';
             }
