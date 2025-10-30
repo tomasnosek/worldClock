@@ -1,28 +1,33 @@
+let currentTimeFormat = '12h'; // '12h', '24h'
+
+const userLocale = navigator.language; // e.g., "en-US", "cs-CZ"
+const isUSLocale = userLocale === 'en-US';
+
 const timezones = [
-    { offset: -11, cities: ["Pago Pago", "Midway"] },
-    { offset: -10, cities: ["Honolulu", "Papeete", "Tahiti"] },
-    { offset: -9, cities: ["Anchorage", "Fairbanks"] },
-    { offset: -8, cities: ["Los Angeles", "Vancouver", "Tijuana"] },
-    { offset: -7, cities: ["Denver", "Edmonton", "Phoenix"] },
-    { offset: -6, cities: ["Mexico City", "Chicago", "Guatemala"] },
-    { offset: -5, cities: ["New York", "Lima", "Toronto", "Havana"] },
-    { offset: -4, cities: ["Santiago", "Halifax", "Caracas"] },
-    { offset: -3, cities: ["São Paulo", "Buenos Aires", "Montevideo"] },
-    { offset: -2, cities: ["Fernando de Noronha"] },
-    { offset: -1, cities: ["Azores", "Cape Verde"] },
-    { offset: 0, cities: ["London", "Lisbon", "Accra", "Dublin"] },
-    { offset: 1, cities: ["Paris", "Rome", "Lagos", "Berlin"] },
-    { offset: 2, cities: ["Cairo", "Johannesburg", "Athens"] },
-    { offset: 3, cities: ["Moscow", "Istanbul", "Nairobi", "Riyadh"] },
-    { offset: 4, cities: ["Dubai", "Baku", "Yerevan"] },
-    { offset: 5, cities: ["Karachi", "Tashkent", "Maldives"] },
-    { offset: 6, cities: ["Dhaka", "Almaty", "Omsk"] },
-    { offset: 7, cities: ["Bangkok", "Jakarta", "Hanoi"] },
-    { offset: 8, cities: ["Shanghai", "Singapore", "Perth", "Taipei"] },
-    { offset: 9, cities: ["Tokyo", "Seoul", "Pyongyang"] },
-    { offset: 10, cities: ["Sydney", "Vladivostok", "Guam"] },
-    { offset: 11, cities: ["Noumea", "Solomon Is."] },
-    { offset: 12, cities: ["Auckland", "Fiji", "Kamchatka"] },
+    { offset: -11, iana: "Pacific/Pago_Pago", cities: ["Pago Pago", "Midway Atoll", "Alofi"] },
+    { offset: -10, iana: "Pacific/Honolulu", cities: ["Honolulu", "Papeete", "Tahiti", "Adak", "Rarotonga", "Fakarava"] },
+    { offset: -9, iana: "America/Anchorage", cities: ["Anchorage", "Fairbanks", "Juneau", "Nome", "Sitka", "Kodiak", "Dutch Harbor"] },
+    { offset: -8, iana: "America/Los_Angeles", cities: ["Los Angeles", "Vancouver", "Tijuana", "San Francisco", "Seattle", "Las Vegas", "Portland", "San Diego", "Sacramento", "Phoenix"] },
+    { offset: -7, iana: "America/Denver", cities: ["Denver", "Edmonton", "Phoenix", "Salt Lake City", "Calgary", "Albuquerque", "Tucson", "Boise", "Helena", "Cheyenne"] },
+    { offset: -6, iana: "America/Mexico_City", cities: ["Mexico City", "Chicago", "Guatemala City", "Dallas", "Houston", "Winnipeg", "San Salvador", "New Orleans", "Kansas City", "Monterrey"] },
+    { offset: -5, iana: "America/New_York", cities: ["New York", "Lima", "Toronto", "Havana", "Bogota", "Quito", "Washington D.C.", "Miami", "Atlanta", "Boston"] },
+    { offset: -4, iana: "America/Santiago", cities: ["Santiago", "Halifax", "Caracas", "La Paz", "Santo Domingo", "San Juan", "Port of Spain", "Asuncion", "Manaus", "Georgetown"] },
+    { offset: -3, iana: "America/Sao_Paulo", cities: ["São Paulo", "Buenos Aires", "Montevideo", "Rio de Janeiro", "Brasilia", "Santiago", "Rosario", "Cordoba", "Salvador", "Recife"] },
+    { offset: -2, iana: "America/Noronha", cities: ["Fernando de Noronha", "South Georgia"] },
+    { offset: -1, iana: "Atlantic/Azores", cities: ["Azores", "Cape Verde", "Praia", "Ponta Delgada"] },
+    { offset: 0, iana: "Europe/London", cities: ["London", "Lisbon", "Accra", "Dublin", "Edinburgh", "Casablanca", "Reykjavik", "Dakar", "Freetown", "Abidjan"] },
+    { offset: 1, iana: "Europe/Paris", cities: ["Paris", "Rome", "Lagos", "Berlin", "Madrid", "Amsterdam", "Brussels", "Stockholm", "Oslo", "Copenhagen"] },
+    { offset: 2, iana: "Africa/Cairo", cities: ["Cairo", "Johannesburg", "Athens", "Jerusalem", "Istanbul", "Helsinki", "Bucharest", "Sofia", "Kyiv", "Harare"] },
+    { offset: 3, iana: "Europe/Moscow", cities: ["Moscow", "Istanbul", "Nairobi", "Riyadh", "Baghdad", "Minsk", "Addis Ababa", "Kuwait City", "Doha", "Ankara"] },
+    { offset: 4, iana: "Asia/Dubai", cities: ["Dubai", "Baku", "Yerevan", "Muscat", "Tbilisi", "Abu Dhabi", "Sharjah", "Doha", "Tehran", "Port Louis"] },
+    { offset: 5, iana: "Asia/Karachi", cities: ["Karachi", "Tashkent", "Maldives", "Islamabad", "Lahore", "Samarkand", "Dushanbe", "Ashgabat", "Colombo", "Kabul"] },
+    { offset: 6, iana: "Asia/Dhaka", cities: ["Dhaka", "Almaty", "Omsk", "Bishkek", "Novosibirsk", "Astana", "Thimphu", "Chittagong", "Kathmandu", "Ulaanbaatar"] },
+    { offset: 7, iana: "Asia/Bangkok", cities: ["Bangkok", "Jakarta", "Hanoi", "Phnom Penh", "Vientiane", "Ho Chi Minh City", "Kuala Lumpur", "Singapore", "Yangon", "Denpasar"] },
+    { offset: 8, iana: "Asia/Shanghai", cities: ["Shanghai", "Singapore", "Perth", "Taipei", "Hong Kong", "Beijing", "Manila", "Kuala Lumpur", "Ulaanbaatar", "Macau"] },
+    { offset: 9, iana: "Asia/Tokyo", cities: ["Tokyo", "Seoul", "Pyongyang", "Osaka", "Nagoya", "Sapporo", "Busan", "Incheon", "Hiroshima", "Fukuoka"] },
+    { offset: 10, iana: "Australia/Sydney", cities: ["Sydney", "Vladivostok", "Guam", "Melbourne", "Brisbane", "Canberra", "Hobart", "Port Moresby", "Magadan", "Sakhalin"] },
+    { offset: 11, iana: "Pacific/Noumea", cities: ["Noumea", "Solomon Is.", "Port Vila", "Honiara", "Majuro", "Tarawa", "Nauru", "Funafuti", "Wallis", "Futuna"] },
+    { offset: 12, iana: "Pacific/Auckland", cities: ["Auckland", "Fiji", "Kamchatka", "Wellington", "Suva", "Nukualofa", "Apia", "Kiribati", "Anadyr", "Petropavlovsk-Kamchatsky"] },
 ];
 
 function renderTimezones() {
@@ -71,38 +76,68 @@ function renderTimezones() {
 
 function updateClocks() {
     const now = new Date();
-    document.getElementById('local-time').textContent = now.toLocaleTimeString();
+    let localTimeOptions = {};
+
+    if (currentTimeFormat === '12h') {
+        localTimeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+        if (isUSLocale) {
+            localTimeOptions.hourCycle = 'h12'; // Use h12 for am/pm
+        }
+    } else if (currentTimeFormat === '24h') {
+        localTimeOptions = { hour: 'numeric', minute: '2-digit', hour12: false };
+        if (isUSLocale) {
+            localTimeOptions.hourCycle = 'h23'; // Use h23 for 24-hour format
+        }
+    }
+    document.getElementById('local-time').textContent = now.toLocaleTimeString(userLocale, localTimeOptions);
 
     const localDay = now.getDate();
-    const utcHours = now.getUTCHours();
-    const utcMinutes = now.getUTCMinutes();
 
     timezones.forEach(tz => {
-        const tzHour = (utcHours + tz.offset + 24) % 24;
-        
-        const timeString = String(tzHour).padStart(2, '0') + ':' + String(utcMinutes).padStart(2, '0');
+        let timeZoneToUse = tz.iana;
+
+        let timeOptions = {
+            hour: 'numeric',
+            minute: '2-digit',
+            timeZone: timeZoneToUse
+        };
+
+        if (currentTimeFormat === '12h') {
+            timeOptions.hour12 = true;
+            if (isUSLocale) {
+                timeOptions.hourCycle = 'h12';
+            }
+        } else if (currentTimeFormat === '24h') {
+            timeOptions.hour12 = false;
+            if (isUSLocale) {
+                timeOptions.hourCycle = 'h23';
+            }
+        }
+
+        const timezoneDate = new Date(now.toLocaleString('en-US', { timeZone: timeZoneToUse }));
+        const timeString = timezoneDate.toLocaleTimeString(userLocale, timeOptions);
         document.getElementById(`time-${tz.offset}`).textContent = timeString;
 
         // Update Day/Night Icon
+        const tzHour = timezoneDate.getHours();
         const isDay = tzHour >= 6 && tzHour < 18;
         const phaseIconElement = document.getElementById(`phase-${tz.offset}`);
         if (phaseIconElement) {
-            phaseIconElement.classList.remove('is-day', 'is-night'); // Remove existing classes
+            phaseIconElement.classList.remove('is-day', 'is-night');
             if (isDay) {
                 phaseIconElement.classList.add('is-day');
             } else {
                 phaseIconElement.classList.add('is-night');
             }
-            phaseIconElement.textContent = ''; // Clear emoji text
+            phaseIconElement.textContent = '';
         }
 
         // Update Date Indicator
-        const tzTime = new Date(now.getTime() + (tz.offset - (-now.getTimezoneOffset()/60)) * 3600 * 1000);
-        const tzDay = tzTime.getDate();
+        const tzDay = timezoneDate.getDate();
         const dateElement = document.getElementById(`date-${tz.offset}`);
         if (dateElement) {
             if (tzDay !== localDay) {
-                dateElement.textContent = tzTime.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+                dateElement.textContent = timezoneDate.toLocaleDateString(userLocale, { month: 'short', day: 'numeric' });
             } else {
                 dateElement.textContent = '';
             }
@@ -165,4 +200,35 @@ document.addEventListener('DOMContentLoaded', () => {
         updateMapOverlay();
     });
     document.getElementById('timeline-wrapper').addEventListener('scroll', updateMapOverlay);
+    document.getElementById('map-container').addEventListener('click', handleMapClick);
+
+    document.querySelectorAll('input[name="timeFormat"]').forEach(radio => {
+        radio.addEventListener('change', (event) => {
+            currentTimeFormat = event.target.value;
+            updateClocks();
+        });
+    });
 });
+
+function handleMapClick(event) {
+    const mapContainer = document.getElementById('map-container');
+    const clickX = event.clientX - mapContainer.getBoundingClientRect().left;
+    const mapWidth = mapContainer.offsetWidth;
+    const clickedPercentage = clickX / mapWidth;
+
+    const totalOffsets = 24;
+    const clickedOffset = Math.round(clickedPercentage * totalOffsets) - 11;
+
+    const timelineWrapper = document.getElementById('timeline-wrapper');
+    const targetElement = document.querySelector(`[data-offset="${clickedOffset}"]`);
+
+    if (targetElement) {
+        const targetLeft = targetElement.offsetLeft + (targetElement.offsetWidth / 2);
+        const containerWidth = timelineWrapper.offsetWidth;
+        const scrollLeft = targetLeft - (containerWidth / 2);
+        timelineWrapper.scrollTo({
+            left: scrollLeft,
+            behavior: 'smooth'
+        });
+    }
+}

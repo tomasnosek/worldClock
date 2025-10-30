@@ -1,4 +1,56 @@
 
+#timezone-switcher {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    z-index: 1000;
+    display: flex; /* Changed to flex to put segments side-by-side */
+    flex-direction: row; /* Ensure they are in a row */
+    gap: 10px;
+}
+
+.segment-switch {
+    display: flex;
+    border: 1px solid #121212; /* Changed border color to black */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #d3cfc9; /* Background color same as web */
+}
+
+.segment-switch label {
+    flex: 1;
+    padding: 8px 12px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.1em; /* Matching timezone-time font size */
+    font-weight: 500; /* Matching timezone-time font weight */
+    color: #121212; /* Black font for unselected */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+}
+
+.segment-switch input[type="radio"] {
+    display: none;
+}
+
+.segment-switch input[type="radio"]:checked + label {
+    background-color: #121212; /* Black background for selected */
+    color: #ffffff; /* White font for selected */
+}
+
+.segment-switch label:hover {
+    background-color: rgba(18, 18, 18, 0.1); /* Subtle hover for unselected */
+}
+
+.segment-switch input[type="radio"]:checked + label:hover {
+    background-color: #121212; /* Keep black background on hover for selected */
+    color: #ffffff;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: #d3cfc9;
@@ -147,11 +199,13 @@ h1 {
     position: fixed;
     top: 30px;
     left: 30px;
-    width: 240px;
-    height: 120px;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg');
-    background-size: cover;
-    border: 1px solid #BDBDBD;
+    width: 300px;
+    height: 150px;
+    background-image: url('src/World_map_without_Antarctica.svg');
+    background-color: #d3cfc9; /* Match body background */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
     z-index: 1000;
 }
 
@@ -161,8 +215,7 @@ h1 {
     left: 0;
     width: 0; /* Will be set by JS */
     height: 100%;
-    background-color: rgba(18, 18, 18, 0.1);
-    border-right: 1px solid rgba(18, 18, 18, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #map-vertical-line {
